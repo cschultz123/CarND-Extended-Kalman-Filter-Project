@@ -1,4 +1,7 @@
 
+# Extended Kalman Filter Project
+by Charles Schultz
+
 # Kalman Filter Algorithm
 
 **Assumptions**
@@ -233,7 +236,23 @@ tan^{-1}\left(\frac{p_{y}}{p_{x}}\right) \\
 \end{bmatrix}
 $
 
-The predicted state is assumed to be a gaussian. Applying a nonlinear transformation like `arctan(x)` does not preserve the gaussian distribution. To resolve this we will use taylor expansion to find a linear approximation of the transformation.  
+The predicted state is assumed to be a gaussian. Applying a nonlinear transformation like `arctan(x)` does not preserve the gaussian distribution. To resolve this we will use taylor expansion to find a linear approximation of the transformation and use this to compute the posterior belief. 
+
+The Extend Kalman filter are very similar to the linear Kalman filter
+
+$
+\begin{align}
+&\textbf{Prediction} \\
+&x = f(x,u) \\
+&P = F_jPF_{j}^T + Q \\
+&\textbf{Update} \\
+&y = z - h(x) \\
+&S = H_jPH_{j}^T + R \\
+&K = PH_{j}^TS^{-1} \\
+&x = x + Ky \\
+&P = (I - KH_j)P \\
+\end{align} \\
+$
 
 
 ```python
@@ -496,12 +515,14 @@ def rmse(data):
 
 print("Lidar Only RMSE: {}".format(rmse(lidar_1)))
 print("Radar Only RMSE: {}".format(rmse(radar_1)))
-print("Combined RMSE: {}".format(rmse(combined_1)))
+print("Sample 1 Combined RMSE: {}".format(rmse(combined_1)))
+print("Sample 2 Combined RMSE: {}".format(rmse(combined_2)))
 ```
 
     Lidar Only RMSE: [ 0.06960322  0.05887649  0.64545368  0.56982642]
     Radar Only RMSE: [ 0.10253598  0.08296112  0.60611643  0.59011248]
-    Combined RMSE: [ 0.06516498  0.06053766  0.53321151  0.54419271]
+    Sample 1 Combined RMSE: [ 0.06516498  0.06053766  0.53321151  0.54419271]
+    Sample 2 Combined RMSE: [ 0.18551725  0.19030089  0.48713766  0.81065708]
 
 
 
