@@ -59,7 +59,7 @@ private:
      * Compute measurement vector from state vector for radar.
      * @return predicted measurement vector
      */
-    Eigen::VectorXd radar_transform();
+    Eigen::VectorXd RadarTransform();
 
 };
 

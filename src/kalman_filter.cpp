@@ -33,7 +33,7 @@ void KalmanFilter::Update(const VectorXd &z) {
 }
 
 void KalmanFilter::UpdateEKF(const Eigen::VectorXd &z) {
-    VectorXd z_pred = radar_transform();
+    VectorXd z_pred = RadarTransform();
     VectorXd y = z - z_pred;
     MatrixXd Ht = H_.transpose();
     MatrixXd S = H_ * P_ * Ht + R_;
@@ -48,10 +48,17 @@ void KalmanFilter::UpdateEKF(const Eigen::VectorXd &z) {
     P_ = (I - K * H_) * P_;
 }
 
-VectorXd KalmanFilter::radar_transform() {
+VectorXd KalmanFilter::RadarTransform() {
     VectorXd z_pred = VectorXd(3);
     z_pred(0) = sqrt(pow(x_(0),2)+pow(x_(1),2));
     z_pred(1) = atan2(x_(1),x_(0));
+
+    //check division by zero
+    if(fabs(z_pred(0)) < 0.0001){
+        throw "RadarTransform () - Error - Division by Zero";
+
+    }
+
     z_pred(2) = (x_(0)*x_(2) + x_(1)*x_(3))/z_pred(0);
     return z_pred;
 }
