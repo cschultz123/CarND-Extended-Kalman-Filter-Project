@@ -25,8 +25,6 @@ FusionEKF::FusionEKF() {
     H_laser_ << 1, 0, 0, 0,
                 0, 1, 0, 0;
 
-    Hj_ = MatrixXd(3, 4);
-
     //measurement covariance matrix - laser
     R_laser_ << 0.0225, 0,
                 0, 0.0225;
@@ -36,11 +34,7 @@ FusionEKF::FusionEKF() {
                 0, 0.0009, 0,
                 0, 0, 0.09;
 
-    /**
-    TODO:
-      * Finish initializing the FusionEKF.
-      * Set the process and measurement noises
-    */
+    // acceleration variance for process covariance matrix
     noise_ax_ = 9;
     noise_ay_ = 9;
 }
